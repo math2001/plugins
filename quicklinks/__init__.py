@@ -3,8 +3,10 @@
 open links quickly
 """
 
+import os.path
 import albert
 import json
+from fetch_favicons import FetchFavicons
 
 FILE = '/home/math2001/.quicklinks.json'
 
@@ -22,6 +24,10 @@ def fuzz_match(search, full_text):
             return False
     return True
 
+ff = None
+def initialize():
+    global ff
+    ff = FetchFavicons(os.path.join(albert.cacheLocation(), "quicklinks-favicon"))
 
 def handleQuery(query):
     if not query.isTriggered:
@@ -42,9 +48,13 @@ def handleQuery(query):
         if not fuzz_match(query.string, name):
             continue
 
+        icon_path = ff.get_favicon_for_url(url)
+        if icon_path is None:
+            icon_path = ""
         items.append(albert.Item(
             text=name,
             subtext="Open {}".format(url),
+            icon=icon_path,
             actions=[
                 albert.UrlAction(text='what does this text do?',
                                  url=url)
