@@ -34,8 +34,6 @@ def initialize():
     ff = FetchFavicons(os.path.join(albert.cacheLocation(), "quicklinks-favicon"))
 
 def handleQuery(query):
-    if not query.isTriggered:
-        return []
 
     try:
         with open(FILE, 'r') as fp:
