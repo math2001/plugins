@@ -20,7 +20,7 @@ import subprocess
 __title__ = "Timer"
 __version__ = "0.4.3"
 __triggers__ = "timer "
-__authors__ = ["manuelschneid3r", "googol42"]
+__authors__ = ["manuelschneid3r", "googol42", "math2001"]
 __py_deps__ = ["dbus"]
 
 iconPath = os.path.dirname(__file__)+"/time.svg"
@@ -103,7 +103,7 @@ def handleQuery(query):
                 items.append(Item(
                     id=__title__,
                     text='Delete timer <i>%s [%s]</i>' % (timer_name_with_quotes, identifier),
-                    subtext="Times out %s" % strftime("%X", localtime(timer.end)),
+                    subtext="Times out %s (in ~%s)" % (strftime("%X", localtime(timer.end)), str(timedelta(seconds=timer.end - int(time())))),
                     icon=iconPath,
                     actions=[FuncAction("Delete timer", lambda timer=timer: deleteTimer(timer))]
                 ))
